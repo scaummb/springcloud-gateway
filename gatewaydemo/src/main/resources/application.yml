@@ -14,6 +14,13 @@ spring:
           # 匹配来自HTTP请求
           predicates:
           - Path=/mmb/**
+          # 限流策略
+          filters:
+          - name: RequestRateLimiter
+            args:
+              key-resolver: '#{@hostAddrKeyResolver}'
+              redis-rate-limiter.replenishRate: 1
+              redis-rate-limiter.burstCapacity: 3
 eureka:
   client:
     service-url:
@@ -21,3 +28,8 @@ eureka:
   server:
     enable-self-preservation: false       # 关闭自我保护模式, 默认为打开
     eviction-interval-timer-in-ms: 5000   # 续期时间，即扫描失效服务的间隔时间
+
+redis:
+  host:localhost
+  port:6379
+  database:0
