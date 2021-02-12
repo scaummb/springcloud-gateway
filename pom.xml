@@ -25,5 +25,6 @@
         <module>eurekademo</module>
         <module>gatewaydemo</module>
         <module>business</module>
+        <module>business2</module>
     </modules>
 </project>
