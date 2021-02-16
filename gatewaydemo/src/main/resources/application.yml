@@ -13,7 +13,7 @@ spring:
           uri: http://localhost:8200
           # 匹配来自HTTP请求
           predicates:
-          - Path=/mmb/**
+          - Path=/mmb/**,/momoubin/**
           # 限流策略
           filters:
           - name: RequestRateLimiter

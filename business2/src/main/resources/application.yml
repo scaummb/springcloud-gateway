@@ -2,6 +2,8 @@ server:
   port: 8201
   servlet:
     contextPath: /momoubin
+  targetserver:
+    name: momoubin-business-server
 
 spring:
   application:
@@ -14,3 +16,4 @@ eureka:
   server:
     enable-self-preservation: false       # 关闭自我保护模式, 默认为打开
     eviction-interval-timer-in-ms: 5000   # 续期时间，即扫描失效服务的间隔时间
+

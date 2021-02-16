@@ -1,5 +1,6 @@
 package com.example.business2.service;
 
+import com.example.business2.zk.ZooKeeperClientSession;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -19,20 +21,27 @@ import java.nio.charset.StandardCharsets;
 public class ZkTestProviderImpl implements ZkTestProvider {
 
 	private static final String ROOT_PATH = "/momoubin";
+
 	@Autowired(required = false)
-	private ZooKeeper zk;
+	private ZooKeeper zooKeeper;
 
 	@PostConstruct
 	public void init(){
-		if (zk != null){
+		if (zooKeeper != null){
 			try {
-				Stat stat = zk.exists(ROOT_PATH, false);
+				Stat stat = zooKeeper.exists(ROOT_PATH, false);
 				if (stat == null){
-					zk.create(ROOT_PATH, "momoubin".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+					zooKeeper.create(ROOT_PATH, "momoubin".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (KeeperException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				zooKeeper = new ZooKeeper("0.0.0.0:2182", 10000, new ZooKeeperClientSession());
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -42,27 +51,26 @@ public class ZkTestProviderImpl implements ZkTestProvider {
 	public void registeCallbackUrl(String className, String url) {
 		synchronized (ZkTestProviderImpl.class){
 			try {
-				Stat stat = zk.exists(ROOT_PATH, false);
+				Stat stat = zooKeeper.exists(ROOT_PATH, false);
 				if (stat == null){
-					zk.create(ROOT_PATH, url.getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.CONTAINER);
+					zooKeeper.create(ROOT_PATH, url.getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
 				} else {
-					zk.delete(ROOT_PATH, -1);
-					zk.create(ROOT_PATH, url.getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.CONTAINER);
+					zooKeeper.delete(ROOT_PATH, -1);
+					zooKeeper.create(ROOT_PATH, url.getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
 				}
 			} catch (KeeperException | InterruptedException e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 
 	@Override
 	public ZooKeeper getZkClient() {
-		return null;
+		return zooKeeper;
 	}
 
 	@Override
 	public String getRootPath() {
-		return null;
+		return ROOT_PATH;
 	}
 }

@@ -33,6 +33,7 @@
             <version>3.5.4-beta</version>
         </dependency>
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -43,7 +44,7 @@
                 <scope>import</scope>
             </dependency>
         </dependencies>
-    </dependencyManagement>
+    </dependencyManagement>9
 
     <build>
         <plugins>
