@@ -1,7 +1,8 @@
 package com.example.business2.redis;
 
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPubSub;
-
+@Component
 public class Subscriber extends JedisPubSub {
 
     public Subscriber(){}

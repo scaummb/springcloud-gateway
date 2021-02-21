@@ -21,4 +21,5 @@ public class ZkTestsController {
 		zkTestService.init();
 		return "ok";
 	}
+
 }

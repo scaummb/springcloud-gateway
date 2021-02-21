@@ -1,5 +1,9 @@
 server:
   port: 8200
+  servlet:
+    contextPath: /mmb
+  targetserver:
+    name: momoubin-business-server
 
 spring:
   application:
@@ -12,12 +16,3 @@ eureka:
   server:
     enable-self-preservation: false       # 关闭自我保护模式, 默认为打开
     eviction-interval-timer-in-ms: 5000   # 续期时间，即扫描失效服务的间隔时间
-
-jedis :
-  pool :
-    host : 127.0.0.1
-    port : 6379
-    config :
-      maxTotal: 100
-      maxIdle: 10
-      maxWaitMillis : 100000

@@ -14,7 +14,7 @@ public class Publisher extends Thread{
     public Publisher(JedisPool jedisPool) {
         this.jedisPool = jedisPool;
     }
-    
+
     @Override
     public void run() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

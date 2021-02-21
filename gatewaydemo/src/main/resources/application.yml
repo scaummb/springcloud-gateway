@@ -13,14 +13,14 @@ spring:
           uri: http://localhost:8200
           # 匹配来自HTTP请求
           predicates:
-          - Path=/mmb/**,/momoubin/**
+          - Path=/mmb/**
           # 限流策略
-          filters:
-          - name: RequestRateLimiter
-            args:
-              key-resolver: '#{@hostAddrKeyResolver}'
-              redis-rate-limiter.replenishRate: 1
-              redis-rate-limiter.burstCapacity: 3
+#          filters:
+#          - name: RequestRateLimiter
+#            args:
+#              key-resolver: '#{@hostAddrKeyResolver}'
+#              redis-rate-limiter.replenishRate: 1
+#              redis-rate-limiter.burstCapacity: 3
 eureka:
   client:
     service-url:
